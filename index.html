@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dillon Howard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── THEME TOKENS ─────────────────────────────────── */
+        :root {
+            --bg:             #ffffff;
+            --surface:        #f6f6f6;
+            --border:         #e8e8e8;
+            --text:           #111111;
+            --text-secondary: #555555;
+            --text-muted:     #999999;
+            --nav-bg:         rgba(255, 255, 255, 0.90);
+            --shadow:         rgba(0, 0, 0, 0.06);
+            --overlay:        rgba(0, 0, 0, 0.35);
+            --panel-border:   rgba(0,0,0,0.13);
+            --panel-shadow:   0 2px 6px  rgba(0,0,0,0.02),
+                              0 8px 32px rgba(0,0,0,0.035),
+                              0 0  80px  rgba(0,0,0,0.025);
+        }
+
+        [data-theme="dark"] {
+            --bg:             #111111;
+            --surface:        #1c1c1c;
+            --border:         #2c2c2c;
+            --text:           #f0f0f0;
+            --text-secondary: #aaaaaa;
+            --text-muted:     #606060;
+            --nav-bg:         rgba(17, 17, 17, 0.90);
+            --shadow:         rgba(0, 0, 0, 0.40);
+            --overlay:        rgba(0, 0, 0, 0.60);
+            --panel-border:   rgba(255,255,255,0.10);
+            --panel-shadow:   0 2px 6px  rgba(0,0,0,0.15),
+                              0 8px 32px rgba(0,0,0,0.25),
+                              0 0  80px  rgba(0,0,0,0.20);
+        }
+
+        /* ── RESET & BASE ─────────────────────────────────── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── NAVIGATION ───────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            height: 56px;
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .nav-logo {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            border-radius: 4px;
+            transition: color 0.2s ease;
+            user-select: none;
+        }
+
+        .nav-logo:hover { color: var(--text); }
+        .nav-logo svg { width: 18px; height: 18px; }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: 0.01em;
+            transition: color 0.2s ease;
+            user-select: none;
+        }
+
+        .nav-link:hover { color: var(--text-secondary); }
+        .nav-link.active { color: var(--text); font-weight: 500; }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            border-radius: 4px;
+            transition: color 0.2s ease;
+        }
+        .theme-toggle:hover { color: var(--text); }
+        .theme-toggle svg { width: 17px; height: 17px; }
+        .sun-icon { display: none; }
+        [data-theme="dark"] .sun-icon  { display: block; }
+        [data-theme="dark"] .moon-icon { display: none; }
+
+        /* ── LAYOUT ───────────────────────────────────────── */
+        main { padding-top: 56px; }
+
+        section {
+            display: none;
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 2.75rem 2rem 3.5rem;
+            min-height: calc(100vh - 56px);
+        }
+
+        section.active { display: block; }
+
+        /* ── SHARED TYPOGRAPHY ────────────────────────────── */
+        .label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .heading {
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .body-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 0.9rem;
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            margin: 3.5rem 0;
+        }
+
+        /* ── SKILL TAGS (shared) ──────────────────────────── */
+        .tag {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 500;
+            padding: 0.28rem 0.7rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .tag:hover {
+            box-shadow: 0 0 10px rgba(120, 120, 120, 0.28), 0 0 4px rgba(120, 120, 120, 0.14);
+            border-color: var(--text-muted);
+            transform: translateY(-1px);
+        }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: 1.5rem;
+        }
+
+        /* ── HOME — HERO ──────────────────────────────────── */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            margin-bottom: 0;
+        }
+
+        .hero-text { flex: 1; }
+
+        .greeting {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.035em;
+            line-height: 1.1;
+            margin-bottom: 0.45rem;
+        }
+
+        .hero-name {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.45rem;
+        }
+
+        .hero-bio {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            margin-bottom: 1.25rem;
+            max-width: 420px;
+        }
+
+        /* Social icons */
+        .social-links { display: flex; gap: 0.6rem; align-items: center; }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .social-link:hover {
+            color: var(--text);
+            border-color: var(--text-secondary);
+            background: var(--surface);
+        }
+
+        .social-link svg { width: 15px; height: 15px; }
+
+        /* Profile picture */
+        .hero-image { flex-shrink: 0; }
+
+        .profile-pic {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-pic .pic-placeholder {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 1rem;
+            line-height: 1.5;
+        }
+
+        /* ── HOME — PROFESSIONAL SECTION ─────────────────── */
+        .pro-section { }
+
+        /* ── ABOUT ────────────────────────────────────────── */
+        .about-block { margin-bottom: 0.5rem; }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .img-item { display: flex; flex-direction: column; gap: 0.6rem; }
+
+        .img-item img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
+
+        .img-placeholder {
+            aspect-ratio: 4/3;
+            background: var(--surface);
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            gap: 0.5rem;
+            transition: border-color 0.2s ease;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .img-placeholder svg { opacity: 0.5; }
+
+        .img-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .img-caption {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* ── PROJECTS ─────────────────────────────────────── */
+        .projects-list { margin-top: 2rem; }
+
+        .project-item { border-bottom: 1px solid var(--border); }
+        .project-item:first-child { border-top: 1px solid var(--border); }
+
+        .project-row {
+            display: flex;
+            align-items: center;
+            padding: 1.1rem 0;
+            cursor: pointer;
+            gap: 1rem;
+        }
+
+        .project-row:hover .project-title { color: var(--text); }
+        .project-row:hover .project-arrow { transform: translateX(3px); }
+
+        .project-info { flex: 1; }
+
+        .project-title {
+            font-size: 0.98rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+
+        .project-sub {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+        }
+
+        .project-date {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .project-arrow {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            transition: transform 0.25s ease;
+            flex-shrink: 0;
+        }
+
+        .project-arrow svg { width: 14px; height: 14px; }
+
+        .project-item.open .project-arrow { transform: rotate(90deg); }
+        .project-item.open .project-title { color: var(--text); }
+
+        /* ── ACCORDION DETAIL PANEL ───────────────────────── */
+        .project-detail {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease;
+        }
+
+        .project-item.open .project-detail {
+            grid-template-rows: 1fr;
+        }
+
+        .project-detail-inner {
+            overflow: hidden;
+        }
+
+        .project-detail-content {
+            padding: 1.25rem 0 1.75rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Optional project image inside accordion */
+        .project-img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: var(--surface);
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-bullets {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.25rem;
+        }
+
+        .project-bullets li {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            padding-left: 1.3rem;
+            position: relative;
+            margin-bottom: 0.45rem;
+        }
+
+        .project-bullets li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            margin-top: 1.25rem;
+        }
+
+        .section-label + .body-text {
+            margin-top: 0;
+            font-size: 0.9rem;
+        }
+
+        /* ── COURSEWORK ───────────────────────────────────── */
+        .course-block { margin-bottom: 0.5rem; }
+
+        .course-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        .course-names {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .course-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .course-list li {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            padding-left: 1.3rem;
+            position: relative;
+            margin-bottom: 0.3rem;
+        }
+
+        .course-list li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        /* ── RESPONSIVE ───────────────────────────────────── */
+        @media (max-width: 580px) {
+            nav { padding: 0 1.25rem; }
+            .nav-links { gap: 1.25rem; }
+
+            section { padding: 3rem 1.25rem 5rem; }
+
+            .hero { flex-direction: column; gap: 1.75rem; }
+
+            .profile-pic { width: 160px; height: 160px; border-radius: 50%; }
+
+            .greeting { font-size: 2rem; }
+            .hero-bio { max-width: 100%; }
+
+            .image-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ── CONTENT PANEL ───────────────────────────────── */
+        /*  Sits inside <main> as position:absolute so it scrolls with the
+            page. Gap at top closes naturally as the user scrolls down.    */
+        #content-panel {
+            position: absolute;
+            top: 72px;          /* 56px nav height + 16px gap below nav */
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(780px, 100%);
+            background: var(--bg);
+            border: 2.5px solid var(--panel-border);
+            border-radius: 10px;
+            box-shadow: var(--panel-shadow);
+            z-index: -1;
+            pointer-events: none;
+            transition: background 0.3s ease, box-shadow 0.3s ease,
+                        border-color 0.3s ease;
+        }
+
+        /* main is the positioning context for the panel */
+        main { position: relative; z-index: 1; }
+
+        /* ── TOPOGRAPHIC BACKGROUND ───────────────────────── */
+        #topo-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            /* Mask: opaque on sides, transparent over the content column */
+            -webkit-mask-image: linear-gradient(to right,
+                black 0%,
+                black calc(50% - 470px),
+                transparent calc(50% - 390px),
+                transparent calc(50% + 390px),
+                black calc(50% + 470px),
+                black 100%
+            );
+            mask-image: linear-gradient(to right,
+                black 0%,
+                black calc(50% - 470px),
+                transparent calc(50% - 390px),
+                transparent calc(50% + 390px),
+                black calc(50% + 470px),
+                black 100%
+            );
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="topo-bg" aria-hidden="true"></canvas>
+
+<!-- ── NAVIGATION ──────────────────────────────────────── -->
+<nav>
+    <button class="nav-logo" onclick="navigate('home')" aria-label="Go to home">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+            <polyline points="9 21 9 12 15 12 15 21"/>
+        </svg>
+    </button>
+    <div class="nav-links">
+        <a class="nav-link active" data-section="home"       onclick="navigate('home')">Home</a>
+        <a class="nav-link"        data-section="about"      onclick="navigate('about')">About</a>
+        <a class="nav-link"        data-section="projects"   onclick="navigate('projects')">Projects</a>
+        <a class="nav-link"        data-section="coursework" onclick="navigate('coursework')">Coursework</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light / dark mode">
+        <!-- Sun — visible in dark mode -->
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1"  x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22"  y1="4.22"  x2="5.64"  y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1"  y1="12" x2="3"  y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
+            <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
+        </svg>
+        <!-- Moon — visible in light mode -->
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+    </button>
+</nav>
+
+<main>
+<div id="content-panel" aria-hidden="true"></div>
+
+<!-- ════════════════════════════════════════════════════════
+     HOME
+     ════════════════════════════════════════════════════════ -->
+<section id="home" class="active">
+
+    <!-- Hero row -->
+    <div class="hero">
+        <div class="hero-image">
+            <div class="profile-pic">
+                <img src="images/profile-picture.jpg" alt="Dillon Howard">
+            </div>
+        </div>
+
+        <div class="hero-text">
+            <h1 class="greeting">hey! 👋 </h1>
+            <p class="hero-name">i'm Dillon,</p>
+            <p class="hero-bio">
+                a Computer Engineering student at Virginia Tech with a love for
+                FPGAs, digital design, and building things close to
+                hardware.
+            </p>
+            <div class="social-links">
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/dillonjhoward/"
+                   target="_blank" rel="noopener noreferrer"
+                   class="social-link" aria-label="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                        <rect x="2" y="9" width="4" height="12"/>
+                        <circle cx="4" cy="4" r="2"/>
+                    </svg>
+                </a>
+                <!-- Email -->
+                <a href="mailto:dhoward317@vt.edu"
+                   class="social-link" aria-label="Send me an email">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider" style="margin: 2.75rem 0;"></div>
+
+    <!-- Professional blurb -->
+    <div class="pro-section">
+        <p class="label">About Me</p>
+        <h2 class="heading">Computer Engineer in the Making</h2>
+        <p class="body-text">
+            I'm currently a junior at Virginia Tech pursuing a B.S. in Computer Engineering
+            (GPA: 3.56 / 4.00), with coursework spanning FPGA-based digital design, embedded 
+            systems, and analog circuits. I enjoy projects that sit at the
+            intersection of hardware and software that involve anything from 
+            writing in HDL languages to building GUIs in C++.
+        </p>
+        <p class="body-text">
+            Currently, I'm looking for opportunities in FPGA design, embedded systems,
+            or hardware-adjacent software roles where I can bring my skills into
+            production. I thrive in fast-paced environments and enjoy 
+            both focused solo work and close team collaboration.
+        </p>
+        <p class="label">Top Skills</p>
+        <div class="tag-row">
+            <span class="tag">C / C++</span>
+            <span class="tag">Verilog</span>
+            <span class="tag">SystemVerilog</span>
+            <span class="tag">FPGAs</span>
+            <span class="tag">Embedded Systems</span>
+            <span class="tag">Quartus</span>
+            <span class="tag">Git</span>
+            <span class="tag">Docker</span>
+            <span class="tag">Arduino</span>
+            <span class="tag">MATLAB</span>
+            <span class="tag">LTspice</span>
+            <span class="tag">MIPS Assembly</span>
+            <span class="tag">Real-Time Systems</span>
+            <span class="tag">RTL Design</span>
+            <span class="tag">HAL</span>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     ABOUT
+     ════════════════════════════════════════════════════════ -->
+<section id="about">
+
+    <p class="label">About</p>
+    <h2 class="heading">Who I Am</h2>
+
+    <!--
+        ╔═══════════════════════════════════════════════════════════════╗
+        ║  TO ADD PHOTOS:                                               ║
+        ║  In each .img-placeholder, replace the svg+span with:        ║
+        ║    <img src="images/yourphoto.jpg" alt="description">         ║
+        ║  Then edit the .img-caption text below it.                    ║
+        ╚═══════════════════════════════════════════════════════════════╝
+    -->
+    <div class="image-grid">
+
+        <div class="img-item">
+            <img src="images/burg.jpg" alt="Burg">
+            <p class="img-caption">A goofy cat named Burg...</p>
+        </div>
+
+        <div class="img-item">
+            <img src="images/hike.jpg" alt="Hiking">
+            <p class="img-caption">Top of "Dragon's Tooth" hike</p>
+        </div>
+
+        <div class="img-item">
+            <img src="images/metallica.jpg" alt="Metallica">
+            <p class="img-caption">Metallica at VT concert!!</p>
+        </div>
+
+    </div>
+
+    <div class="divider" style="margin: 1rem 0;"></div>
+
+    <div class="about-block">
+        <p class="body-text">
+            As you may have read, I'm currently attending Virginia Tech, about to 
+            conclude my junior year in Computer Engineering. As I've progressed
+            through my degree, I have shifted my focus more and more towards hardware,
+            and how hardware interacts with with the code its given. 
+        </p>
+        <p class="label">Origins</p>
+        <p class="body-text">
+            I was born and raised in Columbus, NJ, and I was introduced to computers 
+            and video games at a very young age. But with older brothers who seemed 
+            to know everything about them, I couldn't resist the urge to learn more 
+            on my own. It started out as just figuring out how to put a PC together 
+            on my own, but my curiousity led to thinking about how all those parts 
+            even made something user-functional.  
+        </p>
+        <p class="body-text">
+            Coming to Virginia Tech, I was really only interested in learning more
+            about how computer parts worked together, but my degree program opened
+            so many doors to me about things I didn't even know existed. The circuitry
+            fundamentals and theories, the physical properties of transistors, digital
+            logic, and more significantly, FPGAs and embedded programming. 
+        </p>
+        <p class="body-text">
+            FPGAs and embedded systems really drew me into my studies, as there 
+            was something so satisfying about creating code that made an entire machine
+            work. Not only that, but it was (mostly) completely customizable to me, 
+            meaning I could make small tweaks and optimize my design to fit certain
+            criteria.
+        </p>
+        <p class="label">Extras</p>
+        <p class="body-text">
+            Outside of my studies, I worked closely with my university's New Students
+            and Family Programs department to propose, plan, and execute orientation 
+            and welcoming events for new/incoming Virginia Tech students. Being able 
+            to attend this university has been a blessing, and I want every student
+            that's coming here to feel at home and to realize what a wonderful place
+            it is. 
+        </p>
+        <p class="body-text">
+            With that being said, I've always wanted to help new students in their
+            most-likely-extremely-nerve-racking transition to college as I was once
+            in their shoes, not too long ago. The people I've met and the things I've
+            done have changed my life, and I want these new students to feel at ease
+            throughout an incredibly uncertain point of their career.
+        </p>
+        <p class="body-text">
+            I'm also a Co-Director for a student organization, First-Year Leadership
+            Experience (FLEX), where I'm sure you can see why I choose to devote my
+            time here. We're going through a large transformation next year, and I'm 
+            super excited to lead the program to new horizons. 
+        </p>
+        <p class="label">Personal</p>
+        <p class="body-text">
+            I also have a cat, named Burg (after Blacksburg, VA) who is such a typical
+            orange cat. I've fostered many, many cats in my life, but this cat is 
+            always doing things I've never seen a cat do, so he's my bundle of joy and 
+            my source of enthusiam and entertainment from time to time. 
+        </p>
+        <p class="body-text">
+            I love spending time playing sports with friends, going on hikes in the 
+            Appalachian Mountains, and just brainstorming new things or ways to do
+            things. 
+        </p>
+        <p class="label">Future</p>
+        <p class="body-text">
+            I look forward to learning more about my field, whether it be software 
+            programming, network infrastructure, FPGA or hardware design, anything.
+            I hope to build a skill-set of so much knowledge that will make me 
+            proficient in any system, but hopefully be one of the best FPGA, ASIC, 
+            or embedded systems programmers out there. Pursuing fields like this 
+            seem to have no limits to me, given that YOU can make functions/products 
+            better by directly working with hardware elements.
+        </p>
+        <p class="body-text">
+            If you would like to get in touch with me, find me on <a href="https://www.linkedin.com/in/dillonjhoward/" target="_blank" rel="noopener noreferrer">LinkedIn</a> or <a href="mailto:dhoward317@vt.edu">email</a>.
+            I would love to chat with founders, builders, or other students to learn
+            more about their career and what they are currently working on.
+        </p>
+    </div>
+
+
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     PROJECTS
+     ════════════════════════════════════════════════════════ -->
+<section id="projects">
+
+    <p class="label">Projects</p>
+    <h2 class="heading">Things I've Built</h2>
+    <p class="body-text">Click any project to read more about it.</p>
+
+    <div class="projects-list">
+
+        <!-- ── Project 0 ── -->
+        <div class="project-item" id="pi-filetransfer">
+            <div class="project-row" onclick="toggleProject('pi-filetransfer')">
+                <div class="project-info">
+                    <div class="project-title">Automatic File Syncing Application</div>
+                    <div class="project-sub">JS · Electron · Supabase · Chokidar · SQL</div>
+                </div>
+                <span class="project-date">March 2026 – Ongoing</span>
+                <span class="project-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </span>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+                    <div class="project-detail-content">
+                        <!--
+                            ╔═══════════════════════════════════════════════════════════════╗
+                            ║  TO ADD AN IMAGE:                                             ║
+                            ║  Replace the .project-img div below with:                    ║
+                            ║    <div class="project-img">                                 ║
+                            ║      <img src="images/yourphoto.jpg" alt="description">      ║
+                            ║    </div>                                                     ║
+                            ╚═══════════════════════════════════════════════════════════════╝
+                        -->
+                        <div class="project-img">
+                            <div class="img-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                                    <polyline points="21 15 16 10 5 21"/>
+                                </svg>
+                                <span>[ Project image ]</span>
+                            </div>
+                        </div>
+                        <p class="img-caption" style="margin-bottom:1.25rem;">[ Add a caption here ]</p>
+
+                        <p class="section-label">Overview</p>
+                        <p class="body-text">My current project — I'm building a cross-platform file sync desktop app using Electron and Node.js, featuring real-time file watching (chokidar), SHA-256 change detection, and a Supabase relay backend. When users save a file locally, chokidar populates a local SQLite table, which uses API calls to Supabase to check if this change or file is currently cached in storage. If it's new, the file is pushed to Supabase, where it gets deleted automatically once all subscriber devices download/pull the file from storage. Each file has a TTL to ensure storage does not reach capacity and to reduce the vulnerability of having files saved online. Subscriber devices poll the database on a debounced timer and look for table entries that contain their UUID, along with a folder ID to distinguish which folder the file will go to locally.</p>
+
+                        <p class="section-label">Motivation</p>
+                        <p class="body-text">As a student with multiple devices for different purposes, I found it very frustrating to forget to upload my files to a service like Google Drive or Dropbox and not be able to access them when I needed them. I also found products like OneDrive annoying to deal with, limited in capability, and flawed in that crucial way of keeping files in the cloud rather than locally. So I decided to make something better — something designed around my own problems. But I've been realizing more and more that my friends and peers share the same frustrations. This has pushed me to make the application as polished and resourceful as possible before distributing, with the goal of having a final product that others can use as a primary alternative to existing tools.</p>
+
+                        <div class="tag-row" style="margin-top:0;">
+                            <span class="tag">JS</span>
+                            <span class="tag">HTML</span>
+                            <span class="tag">Supabase</span>
+                            <span class="tag">Local Network Transferring</span>
+                            <span class="tag">GUIs</span>
+                            <span class="tag">SQL</span>
+                            <span class="tag">Electron</span>
+                            <span class="tag">Chokidar</span>
+                            <span class="tag">Event-Driven Programming</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Project 1 ── -->
+        <div class="project-item" id="pi-llm">
+            <div class="project-row" onclick="toggleProject('pi-llm')">
+                <div class="project-info">
+                    <div class="project-title">Automated Text File Processing Program</div>
+                    <div class="project-sub">C++ · Qt · NLP · Lexical Processing · Multithreading</div>
+                </div>
+                <span class="project-date">Jan 2026 – Ongoing</span>
+                <span class="project-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </span>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+                    <div class="project-detail-content">
+                        <ul class="project-bullets">
+                            <li>Supporting natural language processing — a core component of LLMs — by decomposing files to tokenize words and syllables, enabling reading-level analysis and simple next-word prediction.</li>
+                            <li>Implementing lexical processing, parts-of-speech identification, and word/phrase embedding to support downstream machine learning workflows.</li>
+                            <li>Building a user-friendly Qt GUI designed for users of all technical backgrounds, emphasizing clear feedback and ease of use.</li>
+                        </ul>
+                        <div class="tag-row" style="margin-top:0;">
+                            <span class="tag">C++</span>
+                            <span class="tag">Qt</span>
+                            <span class="tag">Lexical Processing</span>
+                            <span class="tag">NLP</span>
+                            <span class="tag">GUIs</span>
+                            <span class="tag">Parsing</span>
+                            <span class="tag">Multithreading</span>
+                            <span class="tag">Git</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Project 2 ── -->
+        <div class="project-item" id="pi-stopwatch">
+            <div class="project-row" onclick="toggleProject('pi-stopwatch')">
+                <div class="project-info">
+                    <div class="project-title">Multi-Mode FPGA Stopwatch</div>
+                    <div class="project-sub">Verilog · Quartus · FSM Design · FPGA · Real-Time Systems</div>
+                </div>
+                <span class="project-date">Nov 2025</span>
+                <span class="project-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </span>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+                    <div class="project-detail-content">
+                        <ul class="project-bullets">
+                            <li>Modeled a digital system using time-dependent counter submodules implemented as clock dividers in series to accurately track elapsed time while the stopwatch was enabled.</li>
+                            <li>Built a Moore FSM to orchestrate counter submodules — controlling when they run, halt, and display lap/split times to a seven-segment HEX display on a DE1-SoC FPGA board, without interrupting the live stopwatch count.</li>
+                            <li>Documented extensive verification techniques alongside thorough design decisions and implementation notes.</li>
+                        </ul>
+                        <div class="tag-row" style="margin-top:0;">
+                            <span class="tag">Verilog</span>
+                            <span class="tag">Quartus</span>
+                            <span class="tag">Questa</span>
+                            <span class="tag">FSM Design</span>
+                            <span class="tag">FPGA</span>
+                            <span class="tag">Real-Time Systems</span>
+                            <span class="tag">Documentation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Project 3 ── -->
+        <div class="project-item" id="pi-scheduler">
+            <div class="project-row" onclick="toggleProject('pi-scheduler')">
+                <div class="project-info">
+                    <div class="project-title">New Student Mandatory Event Scheduler</div>
+                    <div class="project-sub">Design · Database · Collaboration · MATLAB · Outreach</div>
+                </div>
+                <span class="project-date">Jun 2025 – Aug 2025</span>
+                <span class="project-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </span>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+                    <div class="project-detail-content">
+                        <ul class="project-bullets">
+                            <li>Worked with Virginia Tech IT professionals to create a user-tailored scheduling program to determine the orientation events new students MUST attend.</li>
+                            <li>Created a database of input/output combinations to cover all new student scheduling options (move-in date, student identity, etc) using MATLAB functions to automate the process.</li>
+                        </ul>
+                        <p class="section-label">Abstract</p>
+                        <p class="body-text">This project was brought to life due to many complications between new students, families, and VT department staff and faculty. The orientation and move-in season is very hectic, and there was no good way of tracking where students had to be, and when, especially if they had more special circumstances then a general VT student moving in on a normal given day.
+                        As a result, during my time throughout my summer internship at New Student and Family Programs, I worked closely with VT IT professionals to provide all parties with a guide to answer many of their questions. Through identifying all student identities (student athlete, international student, etc.) and collaborating with their respective designated VT department, I was able to sum up all scheduling possibilities, constraints, and special conditions that students would have. Using all given inputs, I used MATLAB logic to automate the process to generate outputs based on boolean functions.
+                        </p>
+                        <p class="section-label">Results</p>
+                        <p class="body-text">The result was an accessible software tool for new students, families, and VT faculty and staff to use throughout the 2025 move-in season where it received thousands of uses, solved student confusion, and significantly limited the number of questions VT staff received regarding a student's orientation schedule. 
+                        </p>
+                        <div class="tag-row" style="margin-top:0;">
+                            <span class="tag">Design</span>
+                            <span class="tag">Database</span>
+                            <span class="tag">Collaboration</span>
+                            <span class="tag">MATLAB</span>
+                            <span class="tag">Outreach</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Project 4 ── -->
+        <div class="project-item" id="pi-rtty">
+            <div class="project-row" onclick="toggleProject('pi-rtty')">
+                <div class="project-info">
+                    <div class="project-title">Infra-Red Radioteletype (RTTY)</div>
+                    <div class="project-sub">Arduino · Filter Design · LTspice · Analog Circuits</div>
+                </div>
+                <span class="project-date">Jan – May 2025</span>
+                <span class="project-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </span>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+                    <div class="project-detail-content">
+                        <!--
+                            ╔═══════════════════════════════════════════════════════════╗
+                            ║  PROJECT IMAGE TEMPLATE                                   ║
+                            ║  To add an image to this (or any) project:                ║
+                            ║  1. Place your image file in this folder                  ║
+                            ║     e.g.  images/rtty-circuit.jpg                         ║
+                            ║  2. Replace the .project-img div below with:              ║
+                            ║     <div class="project-img">                             ║
+                            ║       <img src="images/rtty-circuit.jpg" alt="RTTY">      ║
+                            ║     </div>                                                ║
+                            ╚═══════════════════════════════════════════════════════════╝
+                        -->
+                        <div class="project-img">
+                            <span>[ Optional: add a project photo here ]</span>
+                        </div>
+                        <p class="img-caption" style="margin-bottom:1.25rem;">[ Add a caption here ]</p>
+                        <ul class="project-bullets">
+                            <li>Constructed an IR-based transmitter and wireless receiver that communicate over 3 feet, transmitting ASCII strings at a Baud rate of 45.45 with 2295 Hz (mark) and 2125 Hz (space).</li>
+                            <li>Developed embedded Arduino code to generate signals at target frequencies, and designed RC circuits to amplify voltage and filter noise.</li>
+                            <li>Validated end-to-end system performance using oscilloscopes and Digilent WaveForms to confirm signal fidelity.</li>
+                        </ul>
+                        <div class="tag-row" style="margin-top:0;">
+                            <span class="tag">Arduino</span>
+                            <span class="tag">Filter Design</span>
+                            <span class="tag">LTspice</span>
+                            <span class="tag">Digilent WaveForms</span>
+                            <span class="tag">Oscilloscopes</span>
+                            <span class="tag">Analog Circuits</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     COURSEWORK
+     ════════════════════════════════════════════════════════ -->
+<section id="coursework">
+
+    <p class="label">Coursework</p>
+    <h2 class="heading">What I've Studied</h2>
+    <p class="body-text" style="margin-bottom:1rem;">
+        Relevant courses I've taken at Virginia Tech, grouped by area of focus.
+    </p>
+
+    <!-- Category 1 -->
+    <div class="course-block">
+        <h3 class="course-title">Digital Design</h3>
+        <p class="course-names">Digital Design · Computer Organization &amp; Design</p>
+        <ul class="course-list">
+            <li>RTL design with Verilog/SystemVerilog — combinational logic, sequential circuits, FSMs, and pipelined datapaths.</li>
+            <li>FPGA implementation and simulation using Quartus and Questa; hands-on lab work with DE1-SoC boards.</li>
+            <li>Computer architecture fundamentals: ISA design, memory hierarchy, caching, and processor microarchitecture.</li>
+        </ul>
+    </div>
+
+    <!-- Category 2 -->
+    <div class="course-block">
+        <h3 class="course-title">Embedded Systems &amp; Software</h3>
+        <p class="course-names">Embedded Systems · Data Structures &amp; Algorithms · Computational Engineering</p>
+        <ul class="course-list">
+            <li>Algorithm design and complexity analysis across stacks, queues, trees, graphs, and hash tables</li>
+            <li>Introduction to real-time operating systems, interrupt-driven I/O, memory-mapped peripherals, and HAL-based driver development on embedded targets.</li>
+            <li>Applying circuit analysis in embedded contexts, including signal conditioning, filter design, and interfacing analog sensors with digital systems.</li>
+        </ul>
+    </div>
+
+    <!-- Category 3 -->
+    <div class="course-block">
+        <h3 class="course-title">Circuits &amp; Signals</h3>
+        <p class="course-names">Electric Circuits · Signals &amp; Systems · Electronics</p>
+        <ul class="course-list">
+            <li>Circuit analysis techniques including node/mesh methods, Thevenin/Norton equivalents, and AC steady-state analysis.</li>
+            <li>Signal processing fundamentals: Fourier transforms, Laplace transforms, convolution, and filter design.</li>
+            <li>Semiconductor device physics and amplifier design using BJTs and MOSFETs; op-amp circuit analysis.</li>
+        </ul>
+    </div>
+
+</section>
+
+</main>
+
+<script>
+/* ================================================================
+   NAVIGATION & THEME
+   ================================================================ */
+function navigate(id) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const link = document.querySelector(`.nav-links a[onclick*="${id}"]`);
+    if (link) link.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+}
+
+/* Apply saved theme on load */
+(function () {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = saved || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+})();
+
+/* ================================================================
+   PROJECT ACCORDION
+   ================================================================ */
+function toggleProject(id) {
+    const item = document.getElementById(id);
+    const isOpen = item.classList.contains('open');
+
+    /* Close all open items */
+    document.querySelectorAll('.project-item.open').forEach(el => el.classList.remove('open'));
+
+    /* Open clicked item if it was closed */
+    if (!isOpen) item.classList.add('open');
+}
+
+/* ================================================================
+   TOPOGRAPHIC ANIMATION
+   ================================================================ */
+(function () {
+    const canvas = document.getElementById('topo-bg');
+    const ctx    = canvas.getContext('2d');
+
+    /* ── Tuneable parameters ───────────────────────────── */
+    const CELL   = 8;           /* grid cell size in px — smaller = finer mesh */
+    const LEVELS = 120;         /* number of iso-contour levels */
+    const SPEED  = 0.00065;     /* time increment per frame */
+    /* ─────────────────────────────────────────────────── */
+
+    let W, H, cols, rows;
+    let t = Math.random() * 1000;  /* random start phase — avoids the symmetric t=0 state */
+    let animId;
+
+    /* -- Resize handler ---------------------------------- */
+    function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        cols = Math.ceil(W / CELL) + 2;
+        rows = Math.ceil(H / CELL) + 2;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    /* -- Scalar field ------------------------------------ */
+    function field(x, y, time) {
+        const s = 0.0026;
+        /* Low-frequency base — sets large-scale flow direction */
+        const a = Math.sin( x*s*0.70 + y*s*0.25 + time*0.20 );
+        const b = Math.sin( x*s*0.15 - y*s*0.85 + time*0.13 );
+        const c = Math.sin( x*s*1.10 + y*s*0.50 - time*0.17 );
+        const d = Math.sin( x*s*0.35 + y*s*1.20 + time*0.09 );
+        const e = Math.sin( x*s*0.05 + y*s*0.70 + time*0.07 );
+        const f = Math.sin( x*s*1.40 - y*s*0.18 - time*0.11 );
+        const g = Math.sin( x*s*0.60 + y*s*0.90 + time*0.15 ) * 0.6;
+        const h = Math.sin( x*s*0.90 - y*s*0.55 + time*0.06 ) * 0.5;
+        /* Mid-frequency octave — adds local curvature and bends */
+        const i = Math.sin( x*s*2.10 + y*s*1.35 + time*0.22 ) * 0.35;
+        const j = Math.sin( x*s*1.75 - y*s*2.00 + time*0.18 ) * 0.30;
+        const k = Math.sin( x*s*2.60 + y*s*0.42 - time*0.14 ) * 0.28;
+        const l = Math.sin( x*s*0.48 + y*s*2.75 + time*0.19 ) * 0.28;
+        /* High-frequency octave — tighter inflections, breaks circular bias */
+        const m = Math.sin( x*s*3.30 - y*s*1.55 + time*0.26 ) * 0.20;
+        const n = Math.sin( x*s*1.15 + y*s*3.20 - time*0.12 ) * 0.20;
+        const o = Math.sin( x*s*2.90 + y*s*2.40 + time*0.23 ) * 0.16;
+        const p = Math.sin( x*s*3.80 - y*s*0.85 - time*0.20 ) * 0.14;
+        return (a + b + c*0.8 + d*0.75 + e*0.65 + f*0.60 + g + h + i + j + k + l + m + n + o + p) / 7.8;
+    }
+
+    /* -- Marching squares edge interpolation ------------- */
+    function interp(va, vb, iso) {
+        if (Math.abs(va - vb) < 1e-9) return 0.5;
+        return Math.max(0, Math.min(1, (iso - va) / (vb - va)));
+    }
+
+    /* -- Marching squares segment lookup ----------------- */
+    /* Flat pairs of edge indices (0=top,1=right,2=bottom,3=left).
+       Each pair [segs[k], segs[k+1]] is one line segment.        */
+    const MS = [
+        [],         // 0  – all below
+        [0, 3],     // 1  – TL above
+        [0, 1],     // 2  – TR above
+        [3, 1],     // 3  – TL+TR above
+        [1, 2],     // 4  – BR above
+        null,       // 5  – saddle
+        [0, 2],     // 6  – TR+BR above
+        [3, 2],     // 7  – TL+TR+BR above
+        [2, 3],     // 8  – BL above
+        [0, 2],     // 9  – TL+BL above
+        null,       // 10 – saddle
+        [1, 2],     // 11 – TL+TR+BL above
+        [3, 1],     // 12 – BL+BR above
+        [0, 1],     // 13 – TL+BL+BR above
+        [0, 3],     // 14 – TR+BL+BR above
+        [],         // 15 – all above
+    ];
+    /* Saddle cases — flat pairs, two segments each */
+    const SADDLE = { 5: [0, 3, 1, 2], 10: [0, 1, 2, 3] };
+
+    /* -- Main draw --------------------------------------- */
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        /* Line colour respects dark/light mode */
+        const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+        ctx.strokeStyle = dark ? 'rgba(255,255,255,0.13)' : 'rgba(0,0,0,0.10)';
+        ctx.lineWidth   = 0.85;
+
+        /* Build scalar grid */
+        const grid = [];
+        for (let r = 0; r < rows; r++) {
+            grid[r] = [];
+            for (let c = 0; c < cols; c++) {
+                grid[r][c] = field(c * CELL, r * CELL, t);
+            }
+        }
+
+        const step = 2.0 / LEVELS;
+
+        ctx.beginPath();
+        for (let lvl = 0; lvl < LEVELS; lvl++) {
+            const iso = -1.0 + lvl * step + step * 0.5;
+
+            for (let r = 0; r < rows - 1; r++) {
+                for (let c = 0; c < cols - 1; c++) {
+                    const x0 = c * CELL, y0 = r * CELL;
+                    const v00 = grid[r][c], v10 = grid[r][c+1];
+                    const v01 = grid[r+1][c], v11 = grid[r+1][c+1];
+
+                    let idx = 0;
+                    if (v00 > iso) idx |= 1;
+                    if (v10 > iso) idx |= 2;
+                    if (v11 > iso) idx |= 4;
+                    if (v01 > iso) idx |= 8;
+
+                    if (idx === 0 || idx === 15) continue;
+
+                    /* Edge midpoints: 0=top, 1=right, 2=bottom, 3=left */
+                    const pts = [
+                        [x0 + interp(v00, v10, iso) * CELL, y0],
+                        [x0 + CELL, y0 + interp(v10, v11, iso) * CELL],
+                        [x0 + interp(v01, v11, iso) * CELL, y0 + CELL],
+                        [x0, y0 + interp(v00, v01, iso) * CELL]
+                    ];
+
+                    const segs = SADDLE[idx] || MS[idx];
+                    for (let k = 0; k < segs.length; k += 2) {
+                        const [ax, ay] = pts[segs[k]];
+                        const [bx, by] = pts[segs[k+1]];
+                        ctx.moveTo(ax, ay);
+                        ctx.lineTo(bx, by);
+                    }
+                }
+            }
+        }
+        ctx.stroke();
+
+        t += SPEED;
+        animId = requestAnimationFrame(draw);
+    }
+
+    draw();
+})();
+</script>
+
+</body>
+</html>
