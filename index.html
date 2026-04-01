@@ -719,14 +719,12 @@
             <span class="tag">Embedded Systems</span>
             <span class="tag">Quartus</span>
             <span class="tag">Git</span>
+            <span class="tag">R</span>
             <span class="tag">Docker</span>
-            <span class="tag">Arduino</span>
             <span class="tag">MATLAB</span>
             <span class="tag">LTspice</span>
             <span class="tag">MIPS Assembly</span>
-            <span class="tag">Real-Time Systems</span>
             <span class="tag">RTL Design</span>
-            <span class="tag">HAL</span>
         </div>
     </div>
 
@@ -896,7 +894,7 @@
                         <div class="project-img">
                             <img src="images/sync-edit.png" alt="sync-app">
                         </div>
-                        <p class="img-caption" style="margin-bottom:1.25rem;">[ Add a caption here ]</p>
+                        <p class="img-caption" style="margin-bottom:1.25rem;">Early, in-progres UI design for the application.</p>
 
                         <p class="section-label">Overview</p>
                         <p class="body-text">My current project — I'm building a cross-platform file sync desktop app using Electron and Node.js, featuring real-time file watching (chokidar), SHA-256 change detection, and a Supabase relay backend. When users save a file locally, chokidar populates a local SQLite table, which uses API calls to Supabase to check if this change or file is currently cached in storage. If it's new, the file is pushed to Supabase, where it gets deleted automatically once all subscriber devices download/pull the file from storage. Each file has a TTL to ensure storage does not reach capacity and to reduce the vulnerability of having files saved online. Subscriber devices poll the database on a debounced timer and look for table entries that contain their UUID, along with a folder ID to distinguish which folder the file will go to locally.</p>
@@ -1066,10 +1064,10 @@
                             ║     </div>                                                ║
                             ╚═══════════════════════════════════════════════════════════╝
                         -->
-                        <div class="project-img">
-                            <span>[ Optional: add a project photo here ]</span>
+                        <div class="project-img" style="aspect-ratio: unset; height: auto; padding: 0;">
+                            <img src="images/ritty-schematic.png" alt="sync-app" style="object-fit: unset; width: 100%; height: auto;">
                         </div>
-                        <p class="img-caption" style="margin-bottom:1.25rem;">[ Add a caption here ]</p>
+                        <p class="img-caption" style="margin-bottom:1.25rem;">LTspice schematic for the entire receiver circuit, with accurate component values to reflect tolerance.</p>
                         <ul class="project-bullets">
                             <li>Constructed an IR-based transmitter and wireless receiver that communicate over 3 feet, transmitting ASCII strings at a Baud rate of 45.45 with 2295 Hz (mark) and 2125 Hz (space).</li>
                             <li>Developed embedded Arduino code to generate signals at target frequencies, and designed RC circuits to amplify voltage and filter noise.</li>
@@ -1320,15 +1318,15 @@ function toggleProject(id) {
                 }
             }
         }
-        ctx.stroke();
 
+        ctx.stroke();
         t += SPEED;
         animId = requestAnimationFrame(draw);
     }
 
-    draw();
+    animId = requestAnimationFrame(draw);
 })();
-</script>
 
+</script>
 </body>
 </html>
