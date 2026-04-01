@@ -20,9 +20,9 @@
             --shadow:         rgba(0, 0, 0, 0.06);
             --overlay:        rgba(0, 0, 0, 0.35);
             --panel-border:   rgba(0,0,0,0.13);
-            --panel-shadow:   0 2px 6px  rgba(0,0,0,0.02),
-                              0 8px 32px rgba(0,0,0,0.035),
-                              0 0  80px  rgba(0,0,0,0.025);
+            --panel-shadow:   0 2px 6px  rgba(0,0,0,0.04),
+                              0 8px 32px rgba(0,0,0,0.07),
+                              0 0  80px  rgba(0,0,0,0.05);
         }
 
         [data-theme="dark"] {
@@ -36,9 +36,9 @@
             --shadow:         rgba(0, 0, 0, 0.40);
             --overlay:        rgba(0, 0, 0, 0.60);
             --panel-border:   rgba(255,255,255,0.10);
-            --panel-shadow:   0 2px 6px  rgba(0,0,0,0.15),
-                              0 8px 32px rgba(0,0,0,0.25),
-                              0 0  80px  rgba(0,0,0,0.20);
+            --panel-shadow:   0 2px 6px  rgba(0,0,0,0.30),
+                              0 8px 32px rgba(0,0,0,0.50),
+                              0 0  80px  rgba(0,0,0,0.40);
         }
 
         /* ── RESET & BASE ─────────────────────────────────── */
@@ -556,23 +556,45 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
-            /* Mask: opaque on sides, transparent over the content column */
-            -webkit-mask-image: linear-gradient(to right,
-                black 0%,
-                black calc(50% - 470px),
-                transparent calc(50% - 390px),
-                transparent calc(50% + 390px),
-                black calc(50% + 470px),
-                black 100%
-            );
-            mask-image: linear-gradient(to right,
-                black 0%,
-                black calc(50% - 470px),
-                transparent calc(50% - 390px),
-                transparent calc(50% + 390px),
-                black calc(50% + 470px),
-                black 100%
-            );
+            /* Two-axis mask: union of sides (horizontal) + top/bottom gaps (vertical).
+               A pixel is visible if it passes EITHER gradient — so lines show on
+               the sides AND in the narrow gaps above/below the panel.             */
+            mask-image:
+                linear-gradient(to right,
+                    black 0%,
+                    black calc(50% - 470px),
+                    transparent calc(50% - 390px),
+                    transparent calc(50% + 390px),
+                    black calc(50% + 470px),
+                    black 100%
+                ),
+                linear-gradient(to bottom,
+                    black 0px,
+                    black 72px,
+                    transparent 108px,
+                    transparent calc(100% - 36px),
+                    black calc(100% - 18px),
+                    black 100%
+                );
+            mask-composite: add;
+            -webkit-mask-image:
+                linear-gradient(to right,
+                    black 0%,
+                    black calc(50% - 470px),
+                    transparent calc(50% - 390px),
+                    transparent calc(50% + 390px),
+                    black calc(50% + 470px),
+                    black 100%
+                ),
+                linear-gradient(to bottom,
+                    black 0px,
+                    black 72px,
+                    transparent 108px,
+                    transparent calc(100% - 36px),
+                    black calc(100% - 18px),
+                    black 100%
+                );
+            -webkit-mask-composite: source-over;
         }
     </style>
 </head>
@@ -1150,8 +1172,7 @@ function toggleTheme() {
 /* Apply saved theme on load */
 (function () {
     const saved = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = saved || (prefersDark ? 'dark' : 'light');
+    const theme = saved || 'light';
     document.documentElement.setAttribute('data-theme', theme);
 })();
 
