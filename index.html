@@ -877,6 +877,44 @@
     <div class="projects-list">
 
         <!-- ── Project 0 ── -->
+        <div class="project-item" id="fpga-typeracer">
+            <div class="project-row" onclick="toggleProject('fpga-typeracer')">
+                <div class="project-info">
+                    <div class="project-title">FPGA Typeracer Demo</div>
+                    <div class="project-sub">SystemVerilog · Quartus · On-board Memory · PS2 Interface · FPGA</div>
+                </div>
+                <span class="project-date">April 2026 – Ongoing</span>
+                <span class="project-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </span>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+                    <div class="project-detail-content">
+                        <ul class="project-bullets">
+                            <li>Developing a playable 'Typeracer' demo application through only the FPGA chip on the DE1-SoC board.</li>
+                            <li>Utilizing the PS2 interface to communicate with a keyboard to read data in to the system and process events.</li>
+                            <li>Creating graphics through a VGA interface, using sprites and ROM while constructing the full application under a tight memory constraint.</li>
+                        </ul>
+                        <div class="tag-row" style="margin-top:0;">
+                            <span class="tag">SystemVerilog</span>
+                            <span class="tag">Quartus</span>
+                            <span class="tag">On-board Memory</span>
+                            <span class="tag">PS2 Interface</span>
+                            <span class="tag">VGA</span>
+                            <span class="tag">FSM Design</span>
+                            <span class="tag">FPGA</span>
+                            <span class="tag">Documentation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Project 1 ── -->
         <div class="project-item" id="pi-filetransfer">
             <div class="project-row" onclick="toggleProject('pi-filetransfer')">
                 <div class="project-info">
@@ -922,7 +960,10 @@
             </div>
         </div>
 
-        <!-- ── Project 1 ── -->
+        
+        
+
+        <!-- ── Project 2 ── -->
         <div class="project-item" id="pi-llm">
             <div class="project-row" onclick="toggleProject('pi-llm')">
                 <div class="project-info">
@@ -960,7 +1001,7 @@
             </div>
         </div>
 
-        <!-- ── Project 2 ── -->
+        <!-- ── Project 3 ── -->
         <div class="project-item" id="pi-stopwatch">
             <div class="project-row" onclick="toggleProject('pi-stopwatch')">
                 <div class="project-info">
@@ -997,7 +1038,7 @@
             </div>
         </div>
 
-        <!-- ── Project 3 ── -->
+        <!-- ── Project 4 ── -->
         <div class="project-item" id="pi-scheduler">
             <div class="project-row" onclick="toggleProject('pi-scheduler')">
                 <div class="project-info">
@@ -1038,7 +1079,7 @@
             </div>
         </div>
 
-        <!-- ── Project 4 ── -->
+        <!-- ── Project 5 ── -->
         <div class="project-item" id="pi-rtty">
             <div class="project-row" onclick="toggleProject('pi-rtty')">
                 <div class="project-info">
@@ -1103,6 +1144,7 @@
             <li>RTL design with Verilog/SystemVerilog: combinational logic, sequential circuits, FSMs, pipelined datapaths, and control systems for timing.</li>
             <li>FPGA implementation and simulation using Quartus and Questa; hands-on lab work with DE1-SoC boards.</li>
             <li>Assertion-based testbenches, VGA and graphics hardware &amp; methods, and hardware/circuit testing.</li>
+            <li>Utilization of ADC, SPI, PS2, VGA, and other interfaces provided through the DE1-SoC board to accomplish larger functionality.</li>
             <li>Computer architecture fundamentals: MIPS architecture, memory hierarchy, caching, and processor microarchitecture.</li>
         </ul>
     </div>
@@ -1114,6 +1156,7 @@
         <ul class="course-list">
             <li>Project design with the use of polymorphism, inheritance. Programming techniques using API specifications, containers, generics, libraries, widgets, 
                 models, and views. Software frameworks for embedded systems; and advanced techniques with multi-threading to reflective programming. </li>
+            <li>Custom thread-safe data structures and algorithms, as well as thread and graphics implementation practice through external frameworks such as Qt.</li>
             <li>Programming on real-time operating systems using interrupt-driven I/O, memory-mapped peripherals, and HAL-based driver development on embedded boards.</li>
             <li>Algorithm design and complexity analysis across stacks, queues, trees, graphs, and hash tables.</li>
             <li>Applications of UART, I2C, and SPI protocols, ADCs, DACs, and GPIO in embedded programs.</li>
