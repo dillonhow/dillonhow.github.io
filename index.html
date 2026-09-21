@@ -596,6 +596,22 @@
                 );
             -webkit-mask-composite: source-over;
         }
+
+        /* ── SCROLLBAR-PROOF CENTERING ─────────────────────── */
+        /*  Long pages (About, Coursework, an expanded project) get a vertical
+            scrollbar that takes ~15px of layout width; short pages (Home,
+            Projects) don't. Everything was centred in whatever width was left
+            over, so the whole layout jumped ~8px to the left whenever a
+            scrollbar appeared.
+            100vw includes the scrollbar and 100% doesn't, so (100vw - 100%)
+            is exactly the scrollbar's width -- and 0 when there isn't one.
+            Padding the body by it, and sizing the fixed layers (nav + topo
+            canvas) to the full window, keeps every tab centred on the same
+            line. Overlay-scrollbar devices (phones, most Macs) are unaffected
+            because the value is 0 there.                                    */
+        body     { padding-left: calc(100vw - 100%); }
+        nav      { right: auto; width: 100vw; }
+        #topo-bg { width: 100vw; }
     </style>
 </head>
 <body>
@@ -699,7 +715,7 @@
         <h2 class="heading">Computer Engineer in the Making</h2>
         <p class="body-text">
             I'm a junior at Virginia Tech pursuing a B.S. in Computer Engineering
-            (GPA: 3.56 / 4.00), with coursework in FPGA-based digital design, embedded 
+            (GPA: 3.63 / 4.00), with coursework in FPGA-based digital design, embedded 
             systems, and analog circuits. I enjoy projects that use both
             hardware and software and involve anything from writing in 
             HDL languages to building GUIs in C++.
@@ -713,11 +729,19 @@
         <p class="label">Top Skills</p>
         <div class="tag-row">
             <span class="tag">C / C++</span>
+            <span class="tag">Python</span>
             <span class="tag">Verilog</span>
             <span class="tag">SystemVerilog</span>
+            <span class="tag">VHDL</span>
             <span class="tag">FPGAs</span>
             <span class="tag">Embedded Systems</span>
             <span class="tag">Quartus</span>
+            <span class="tag">Vivado</span>
+            <span class="tag">Vitis</span>
+            <span class="tag">Questa</span>
+            <span class="tag">GHDL</span>
+            <span class="tag">GTKWave</span>
+            <span class="tag">cocotb</span>
             <span class="tag">Git</span>
             <span class="tag">R</span>
             <span class="tag">Docker</span>
@@ -876,6 +900,47 @@
 
     <div class="projects-list">
 
+        <!-- ── Project: AFIT Trusted Microelectronics REU ── -->
+        <div class="project-item" id="afit-reu">
+            <div class="project-row" onclick="toggleProject('afit-reu')">
+                <div class="project-info">
+                    <div class="project-title">Trusted Microelectronics Research at AFIT</div>
+                    <div class="project-sub">VHDL · AXI4 · MicroBlaze · cocotb · Spiking Neural Networks</div>
+                </div>
+                <span class="project-date">May 2026 – July 2026</span>
+                <span class="project-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </span>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+                    <div class="project-detail-content">
+                        <ul class="project-bullets">
+                            <li>Participated in the Cybersecurity in Trusted Microelectronics NSF REU at the Air Force Institute of Technology (Wright-Patterson AFB), hosted in collaboration with Wright State University and contracted through the Oak Ridge Institute for Science and Education, assisting faculty and graduate students with research in trusted microelectronics.</li>
+                            <li>Developed a custom AXI4-Full Master module in VHDL that interfaces with Xilinx MIG7 IP to access off-chip memory, giving a custom spiking neural network (SNN) a place to store its neuron weights.</li>
+                            <li>Verified the off-chip memory interface on hardware using the Xilinx MicroBlaze soft processor and AXI Uartlite IP, through embedded development in Vitis.</li>
+                            <li>Wrote Python testbenches with cocotb that simulate the AXI master's behavior against a modeled AXI memory slave.</li>
+                        </ul>
+                        <div class="tag-row" style="margin-top:0;">
+                            <span class="tag">VHDL</span>
+                            <span class="tag">AXI4-Full</span>
+                            <span class="tag">Xilinx MIG7</span>
+                            <span class="tag">MicroBlaze</span>
+                            <span class="tag">Vitis</span>
+                            <span class="tag">cocotb</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">Spiking Neural Networks</span>
+                            <span class="tag">Neuromorphic Computing</span>
+                            <span class="tag">Trusted Microelectronics</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ── Project 0 ── -->
         <div class="project-item" id="fpga-typeracer">
             <div class="project-row" onclick="toggleProject('fpga-typeracer')">
@@ -883,7 +948,7 @@
                     <div class="project-title">FPGA Typeracer Demo</div>
                     <div class="project-sub">SystemVerilog · Quartus · On-board Memory · PS2 Interface · FPGA</div>
                 </div>
-                <span class="project-date">April 2026 – Ongoing</span>
+                <span class="project-date">April 2026 – May 2026</span>
                 <span class="project-arrow">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -921,7 +986,7 @@
                     <div class="project-title">Automatic File Syncing Application</div>
                     <div class="project-sub">JS · Electron · Supabase · Chokidar · SQL</div>
                 </div>
-                <span class="project-date">March 2026 – Ongoing</span>
+                <span class="project-date">March 2026 – May 2026</span>
                 <span class="project-arrow">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -970,7 +1035,7 @@
                     <div class="project-title">Automated Text File Processing Program</div>
                     <div class="project-sub">C++ · Qt · NLP · Lexical Processing · Multithreading</div>
                 </div>
-                <span class="project-date">Jan 2026 – Ongoing</span>
+                <span class="project-date">Jan 2026 – May 2026</span>
                 <span class="project-arrow">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
